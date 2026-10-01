@@ -54,7 +54,7 @@
 .hero-card-tiers{transform:translateY(var(--p-tiers,0px)) rotate(calc(-6deg + var(--p-rot-tiers,0deg)));will-change:transform}
 .hero-card-price{transform:translateY(var(--p-price,0px)) rotate(calc(-4deg + var(--p-rot-price,0deg)));will-change:transform}
 .hero-card-qr{transform:translateY(var(--p-qr,0px)) rotate(calc(-3.5deg + var(--p-rot-qr,0deg)));will-change:transform}
-.device{transform:translateX(-50%) translateY(var(--p-device,0px)) scale(var(--p-scale,1));will-change:transform;-webkit-mask-image:none!important;mask-image:none!important}@media(min-width:900px){.hero-product{height:680px}.hero-copy{margin-top:40px}}
+.device{transform:translateX(-50%) translateY(var(--p-device,0px)) scale(var(--p-scale,1));will-change:transform}@media(min-width:900px){.hero-product{height:680px}.hero-copy{margin-top:40px}}
 
 .sheet-back{transform:translateY(var(--sheet-back-shift,0px));transition:transform .4s cubic-bezier(.16,1,.3,1)}
 .sheet-front{transform:translateY(var(--sheet-front-shift,0px));transition:transform .4s cubic-bezier(.16,1,.3,1)}
