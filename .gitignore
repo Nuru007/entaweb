@@ -1,0 +1,5 @@
+node_modules/
+.openai/
+render*.png
+.DS_Store
+Thumbs.db
