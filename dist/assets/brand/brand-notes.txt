@@ -1,6 +1,7 @@
-ENTA / FOLD
+ENTA / IDENTITY
 
-A custom E assembled from three cut modules. A diagonal seam links the three levels; the long outer arms hold the silhouette together at favicon scale.
+Wordmark: Custom interconnected lowercase letterforms ("enta").
+Symbol: Isometric dimensional arch and focal diagonal beam.
 
 INK #141318
 ELECTRIC VIOLET #4931DE
@@ -10,4 +11,4 @@ WHITE #FFFFFF
 
 Display: Anton Regular. Body: Inter Variable. Both licensed under the SIL Open Font License; bundled in the website assets.
 
-Use light marks on dark surfaces and dark/violet marks on light surfaces. Keep clear space of at least one arm-height around the symbol. Avoid shadows, bevels, and stretching.
+Use light marks on dark surfaces and dark/violet marks on light surfaces. Keep clear space around the symbol and wordmark. Avoid shadows, bevels, and stretching.

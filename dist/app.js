@@ -536,4 +536,168 @@ function toast(message){
   dot.setAttribute('aria-label', 'Go to story ' + (i + 1));
   dot.addEventListener('click', () => chooseStory(i));
  });
+
+  /* ========================================================
+     How it Works 6-Step Horizontal Slider
+     ======================================================== */
+  function initHowSlider() {
+    const slider = $('#how-slider');
+    if (!slider) return;
+    const slides = $$('.how-slide', slider);
+    const prevBtn = $('#how-prev');
+    const nextBtn = $('#how-next');
+    const counter = $('#how-step-counter');
+    const pills = $$('.how-pill');
+    if (!slides.length) return;
+
+    let currentIndex = 0;
+    const total = slides.length;
+
+    function updateActiveStep(index) {
+      if (index < 0 || index >= total) return;
+      currentIndex = index;
+      if (counter) {
+        counter.textContent = 'How it works · ' + String(index + 1).padStart(2, '0') + ' / 06';
+      }
+      pills.forEach((p, i) => {
+        p.classList.toggle('active', i === index);
+        p.setAttribute('aria-selected', String(i === index));
+      });
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) nextBtn.disabled = index === total - 1;
+    }
+
+    function scrollToStep(index) {
+      if (index < 0 || index >= total) return;
+      const target = slides[index];
+      if (target) {
+        slider.scrollTo({
+          left: target.offsetLeft - slider.offsetLeft,
+          behavior: 'smooth'
+        });
+        updateActiveStep(index);
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => scrollToStep(currentIndex - 1));
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => scrollToStep(currentIndex + 1));
+    }
+
+    pills.forEach((pill, i) => {
+      pill.addEventListener('click', () => scrollToStep(i));
+    });
+
+    let scrollRaf = null;
+    slider.addEventListener('scroll', () => {
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = requestAnimationFrame(() => {
+        const scrollPos = slider.scrollLeft;
+        let closestIdx = 0;
+        let minDiff = Infinity;
+        slides.forEach((slide, i) => {
+          const slidePos = slide.offsetLeft - slider.offsetLeft;
+          const diff = Math.abs(slidePos - scrollPos);
+          if (diff < minDiff) {
+            minDiff = diff;
+            closestIdx = i;
+          }
+        });
+        if (closestIdx !== currentIndex) {
+          updateActiveStep(closestIdx);
+        }
+      });
+    }, { passive: true });
+
+    // Drag to slide horizontally with mouse
+    let isDown = false;
+    let startX = 0;
+    let scrollLeftStart = 0;
+
+    slider.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button, input, textarea, a, select')) return;
+      isDown = true;
+      slider.classList.add('is-dragging');
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeftStart = slider.scrollLeft;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 1.35;
+      slider.scrollLeft = scrollLeftStart - walk;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (!isDown) return;
+      isDown = false;
+      slider.classList.remove('is-dragging');
+    });
+
+    // Keyboard navigation
+    slider.setAttribute('tabindex', '0');
+    slider.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        scrollToStep(currentIndex - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        scrollToStep(currentIndex + 1);
+      }
+    });
+
+    // Copy event link in Step 4
+    const copyBtn = $('.copy-url-btn', slider);
+    if (copyBtn) {
+      copyBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const origHtml = copyBtn.innerHTML;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText('https://enta.co/after-hours').catch(() => {});
+        }
+        copyBtn.innerHTML = '✓ Copied!';
+        setTimeout(() => { copyBtn.innerHTML = origHtml; }, 2000);
+      });
+    }
+
+    updateActiveStep(0);
+  }
+
+  initHowSlider();
+
+
+  /* Compute dynamic dock translation offsets for navbar */
+  function updateNavDocking() {
+    const brand = $('.header .brand');
+    const navLinks = $('.header .nav-links');
+    const navCta = $('.header .nav-cta');
+    const brandIcon = $('.header .brand-icon-wrap');
+    if (!brand || !navLinks || !navCta || !brandIcon || window.innerWidth < 900) {
+      document.documentElement.style.removeProperty('--brand-dock-x');
+      document.documentElement.style.removeProperty('--cta-dock-x');
+      return;
+    }
+
+    const gap = 10;
+    const navWidth = navLinks.offsetWidth;
+    const navLeft = (window.innerWidth / 2) - (navWidth / 2);
+    const navRight = (window.innerWidth / 2) + (navWidth / 2);
+
+    const brandIconLeft = brand.offsetLeft;
+    const brandIconRight = brandIconLeft + brandIcon.offsetWidth;
+    const brandDeltaX = Math.round((navLeft - gap) - brandIconRight);
+
+    const ctaLeft = navCta.offsetLeft;
+    const ctaDeltaX = Math.round((navRight + gap) - ctaLeft);
+
+    document.documentElement.style.setProperty('--brand-dock-x', brandDeltaX + 'px');
+    document.documentElement.style.setProperty('--cta-dock-x', ctaDeltaX + 'px');
+  }
+
+  updateNavDocking();
+  window.addEventListener('resize', updateNavDocking, { passive: true });
+
 })();
