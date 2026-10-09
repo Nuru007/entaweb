@@ -1068,23 +1068,206 @@ footer .wordmark {
   transform: translateX(var(--cta-dock-x, 0px)) translateY(-2px) !important;
 }
 
-/* Mobile responsive */
+/* Mobile responsive navigation & header */
 @media (max-width: 899px) {
-  .header .nav-links {
-    display: none !important;
+  .header {
+    top: 16px !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 0 16px !important;
+    gap: 8px !important;
   }
+  .header.scrolled {
+    top: 12px !important;
+    padding: 0 16px !important;
+  }
+
+  /* Reset docking transforms on mobile - badges stay docked to edges */
   .header.scrolled .brand {
     transform: none !important;
   }
   .header.scrolled .nav-cta {
     transform: none !important;
   }
+
+  /* Wordmark smoothly collapses on mobile when scrolled - EXACTLY like desktop */
+  .wordmark-wrap {
+    max-width: 100px;
+    margin-left: 6px;
+    transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease,
+                margin-left 0.35s ease,
+                transform 0.35s ease;
+  }
+  .wordmark-wrap .wordmark {
+    width: 76px !important;
+  }
   .header.scrolled .wordmark-wrap {
-    max-width: 130px !important;
-    opacity: 1 !important;
-    margin-left: 10px !important;
+    max-width: 0 !important;
+    opacity: 0 !important;
+    margin-left: 0 !important;
+    transform: scale(0.8) !important;
+    pointer-events: none !important;
+  }
+
+  /* Brand icon badge sizing on mobile */
+  .brand-icon-wrap {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .brand-icon {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  .header.scrolled .brand-icon {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  /* CTA button responsiveness on mobile */
+  .header .nav-cta {
+    margin-left: auto !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: 99px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+  }
+
+  /* Mobile menu button */
+  .header .menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 0 14px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: 99px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    color: #fff !important;
+    background: rgba(35, 62, 133, 0.38) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    line-height: 1 !important;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s !important;
+  }
+  .header .menu-toggle:hover,
+  .header .menu-toggle:active {
+    background: rgba(35, 62, 133, 0.6) !important;
+    transform: translateY(-1px) !important;
+  }
+  .header.scrolled .menu-toggle {
+    background: rgba(18, 14, 28, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Desktop nav pill hidden on mobile unless open dropdown */
+  .header .nav-links:not(.open) {
+    display: none !important;
+  }
+  .header .nav-links.open {
+    display: flex !important;
+    position: absolute !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: calc(100% + 10px) !important;
     transform: none !important;
+    background: rgba(22, 17, 34, 0.96) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    padding: 12px !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+    flex-direction: column !important;
+    border-radius: 20px !important;
     pointer-events: auto !important;
+    z-index: 100 !important;
+    gap: 4px !important;
+  }
+  .header .nav-links.open a {
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    display: block !important;
+  }
+  .header .nav-links.open a.active {
+    background: rgba(255, 255, 255, 0.16) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    top: 14px !important;
+    padding: 0 12px !important;
+    gap: 6px !important;
+  }
+  .header.scrolled {
+    top: 10px !important;
+    padding: 0 12px !important;
+  }
+  .wordmark-wrap .wordmark {
+    width: 70px !important;
+  }
+  .header .nav-cta {
+    min-height: 35px !important;
+    height: 35px !important;
+    padding: 0 12px !important;
+    font-size: 11px !important;
+  }
+  .header .menu-toggle {
+    min-height: 35px !important;
+    height: 35px !important;
+    padding: 0 11px !important;
+    font-size: 11px !important;
+  }
+  .brand-icon-wrap {
+    width: 38px !important;
+    height: 38px !important;
+  }
+  .brand-icon {
+    width: 25px !important;
+    height: 25px !important;
+  }
+  .header.scrolled .brand-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+
+@media (max-width: 359px) {
+  .header {
+    padding: 0 8px !important;
+    gap: 4px !important;
+  }
+  .wordmark-wrap .wordmark {
+    width: 62px !important;
+  }
+  .header .nav-cta {
+    min-height: 32px !important;
+    height: 32px !important;
+    padding: 0 9px !important;
+    font-size: 10px !important;
+  }
+  .header .menu-toggle {
+    min-height: 32px !important;
+    height: 32px !important;
+    padding: 0 9px !important;
+    font-size: 10px !important;
   }
 }
 
